@@ -30,6 +30,8 @@
         </label>
         <button type="submit" class="btn btn-primary">Let's Play! 🎲</button>
       </form>
+      <div class="mode-divider"><span>or</span></div>
+      <button type="button" id="btn-solo-game" class="btn btn-secondary">Solo Game 🎯</button>
     </section>
 
     <!-- HANDOFF -->
@@ -110,7 +112,7 @@
 
 <div id="reset-confirm-overlay" class="overlay hidden">
   <div class="overlay-card">
-    <p class="overlay-text">Reset the whole game? This clears both players and all scores.</p>
+    <p class="overlay-text" id="overlay-text">Reset the whole game? This clears both players and all scores.</p>
     <div class="overlay-actions">
       <button type="button" id="btn-reset-cancel" class="btn btn-secondary">Cancel</button>
       <button type="button" id="btn-reset-confirm" class="btn btn-primary">Reset Game</button>
