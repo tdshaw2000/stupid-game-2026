@@ -44,6 +44,7 @@ body {
 }
 
 .app-header {
+  position: relative;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -54,6 +55,30 @@ body {
   margin: 0;
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   letter-spacing: 0.5px;
+}
+
+.reset-link {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.reset-link:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.reset-link:active {
+  transform: scale(0.96);
 }
 
 .screen-root {
@@ -314,6 +339,13 @@ form {
 .turn-summary-text {
   font-size: 1.15rem;
   font-weight: 700;
+  margin: 0;
+}
+
+.turn-summary-secret {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-soft);
   margin: 0;
 }
 

@@ -204,6 +204,8 @@
     const attemptWord = attempts === 1 ? 'attempt' : 'attempts';
     document.getElementById('turn-summary-text').textContent =
       `${guesserName} guessed it in ${attempts} ${attemptWord}!`;
+    document.getElementById('turn-summary-secret').textContent =
+      `The secret number was ${secret}.`;
     showScreen('turnSummary');
   }
 
@@ -262,8 +264,37 @@
   });
 
   document.getElementById('btn-new-match').addEventListener('click', () => {
+    // Same two players, fresh scoreboard.
+    players.forEach((p) => { p.roundsWon = 0; });
+    roundNumber = 1;
+    starterIndex = Math.random() < 0.5 ? 0 : 1;
+    startRound();
+  });
+
+  // ---------- Full reset ----------
+
+  function resetGame() {
+    players = [];
+    starterIndex = 0;
+    roundNumber = 1;
+    turn = null;
+    pickerIndex = null;
+    guesserIndex = null;
+    secret = null;
+    attempts = 0;
+    guesses = [];
+    turnResults = [];
+    handoffNext = null;
     document.getElementById('input-player1').value = '';
     document.getElementById('input-player2').value = '';
     showScreen('nameEntry');
+  }
+
+  document.getElementById('btn-reset-game').addEventListener('click', () => {
+    const hasProgress = players.length > 0;
+    if (hasProgress && !window.confirm('Reset the whole game? This clears both players and all scores.')) {
+      return;
+    }
+    resetGame();
   });
 })();
