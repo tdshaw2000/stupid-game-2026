@@ -262,14 +262,6 @@
     startRound();
   });
 
-  document.getElementById('btn-new-match').addEventListener('click', () => {
-    // Same two players, fresh scoreboard.
-    players.forEach((p) => { p.roundsWon = 0; });
-    roundNumber = 1;
-    starterIndex = Math.random() < 0.5 ? 0 : 1;
-    startRound();
-  });
-
   // ---------- Full reset ----------
 
   function resetGame() {
