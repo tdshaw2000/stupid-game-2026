@@ -43,6 +43,28 @@
     return n;
   }
 
+  // Custom on-screen keypad so the phone's own keyboard never pops up
+  // (the inputs it drives are readonly/inputmode=none for exactly that reason).
+  const MAX_DIGITS = String(MAX_NUM).length;
+
+  function wireNumberPad(padId, inputId, errorId) {
+    const pad = document.getElementById(padId);
+    const input = document.getElementById(inputId);
+    const errorEl = document.getElementById(errorId);
+    pad.addEventListener('click', (e) => {
+      const key = e.target.closest('.pad-key')?.dataset.key;
+      if (!key) return;
+      errorEl.classList.add('hidden');
+      if (key === 'back') {
+        input.value = input.value.slice(0, -1);
+      } else if (key === 'clear') {
+        input.value = '';
+      } else if (input.value.length < MAX_DIGITS) {
+        input.value += key;
+      }
+    });
+  }
+
   // ---------- Name entry ----------
 
   document.getElementById('form-name-entry').addEventListener('submit', (e) => {
@@ -120,13 +142,15 @@
 
   // ---------- Picking ----------
 
+  wireNumberPad('picking-pad', 'input-secret', 'picking-error');
+  wireNumberPad('guessing-pad', 'input-guess', 'guessing-error');
+
   function goToPicking() {
     document.getElementById('picking-banner').textContent =
       `${players[pickerIndex].name}, choose your secret number`;
     document.getElementById('input-secret').value = '';
     document.getElementById('picking-error').classList.add('hidden');
     showScreen('picking');
-    setTimeout(() => document.getElementById('input-secret').focus(), 50);
   }
 
   document.getElementById('form-picking').addEventListener('submit', (e) => {
@@ -156,7 +180,6 @@
     updateAttemptCount();
     renderGuessHistory();
     showScreen('guessing');
-    setTimeout(() => document.getElementById('input-guess').focus(), 50);
   }
 
   function updateAttemptCount() {
@@ -214,8 +237,6 @@
     if (result === 'correct') {
       turnResults.push({ guesserIndex, attempts });
       setTimeout(showTurnSummary, 600);
-    } else {
-      setTimeout(() => document.getElementById('input-guess').focus(), 50);
     }
   });
 

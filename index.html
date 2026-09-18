@@ -53,8 +53,22 @@
         <form id="form-picking">
           <label class="field">
             <span>Your secret number</span>
-            <input type="password" id="input-secret" inputmode="numeric" pattern="[0-9]*" autocomplete="off" required placeholder="1 - 1000" />
+            <input type="password" id="input-secret" inputmode="none" autocomplete="off" readonly required placeholder="1 - 1000" />
           </label>
+          <div class="number-pad" id="picking-pad">
+            <button type="button" class="pad-key" data-key="1">1</button>
+            <button type="button" class="pad-key" data-key="2">2</button>
+            <button type="button" class="pad-key" data-key="3">3</button>
+            <button type="button" class="pad-key" data-key="4">4</button>
+            <button type="button" class="pad-key" data-key="5">5</button>
+            <button type="button" class="pad-key" data-key="6">6</button>
+            <button type="button" class="pad-key" data-key="7">7</button>
+            <button type="button" class="pad-key" data-key="8">8</button>
+            <button type="button" class="pad-key" data-key="9">9</button>
+            <button type="button" class="pad-key pad-key-wide" data-key="clear">Clear</button>
+            <button type="button" class="pad-key" data-key="0">0</button>
+            <button type="button" class="pad-key" data-key="back">⌫</button>
+          </div>
           <p class="error hidden" id="picking-error">Please enter a whole number between 1 and 1000.</p>
           <button type="submit" class="btn btn-primary">Lock it in 🔒</button>
         </form>
@@ -69,8 +83,22 @@
         <form id="form-guessing">
           <label class="field">
             <span>Your guess</span>
-            <input type="text" id="input-guess" inputmode="numeric" pattern="[0-9]*" autocomplete="off" required placeholder="1 - 1000" />
+            <input type="text" id="input-guess" inputmode="none" autocomplete="off" readonly required placeholder="1 - 1000" />
           </label>
+          <div class="number-pad" id="guessing-pad">
+            <button type="button" class="pad-key" data-key="1">1</button>
+            <button type="button" class="pad-key" data-key="2">2</button>
+            <button type="button" class="pad-key" data-key="3">3</button>
+            <button type="button" class="pad-key" data-key="4">4</button>
+            <button type="button" class="pad-key" data-key="5">5</button>
+            <button type="button" class="pad-key" data-key="6">6</button>
+            <button type="button" class="pad-key" data-key="7">7</button>
+            <button type="button" class="pad-key" data-key="8">8</button>
+            <button type="button" class="pad-key" data-key="9">9</button>
+            <button type="button" class="pad-key pad-key-wide" data-key="clear">Clear</button>
+            <button type="button" class="pad-key" data-key="0">0</button>
+            <button type="button" class="pad-key" data-key="back">⌫</button>
+          </div>
           <p class="error hidden" id="guessing-error">Please enter a whole number between 1 and 1000.</p>
           <button type="submit" class="btn btn-primary">Guess 🎯</button>
         </form>
