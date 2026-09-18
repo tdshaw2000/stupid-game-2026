@@ -44,10 +44,7 @@ body {
 }
 
 .app-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+  text-align: center;
   margin-bottom: 20px;
 }
 
@@ -60,7 +57,6 @@ body {
 }
 
 .reset-link {
-  flex-shrink: 0;
   border: none;
   background: rgba(255, 255, 255, 0.22);
   color: #fff;
@@ -404,24 +400,65 @@ form {
 }
 
 .app-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
   text-align: center;
   color: rgba(255, 255, 255, 0.85);
   font-size: 0.85rem;
   margin-top: 24px;
 }
 
-@media (max-width: 480px) {
-  .app-header {
-    flex-wrap: wrap;
-  }
+.app-footer p {
+  margin: 0;
+}
 
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 33, 64, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 50;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.overlay-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  max-width: 340px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  text-align: center;
+}
+
+.overlay-text {
+  margin: 0;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.overlay-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.overlay-actions .btn {
+  flex: 1;
+}
+
+@media (max-width: 360px) {
   .app-header h1 {
-    font-size: 1.5rem;
-    order: -1;
-    width: 100%;
-  }
-
-  .reset-link {
-    margin: 0 auto;
+    font-size: 1.6rem;
   }
 }

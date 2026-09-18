@@ -289,11 +289,23 @@
     showScreen('nameEntry');
   }
 
+  const resetOverlay = document.getElementById('reset-confirm-overlay');
+
   document.getElementById('btn-reset-game').addEventListener('click', () => {
     const hasProgress = players.length > 0;
-    if (hasProgress && !window.confirm('Reset the whole game? This clears both players and all scores.')) {
-      return;
+    if (hasProgress) {
+      resetOverlay.classList.remove('hidden');
+    } else {
+      resetGame();
     }
+  });
+
+  document.getElementById('btn-reset-cancel').addEventListener('click', () => {
+    resetOverlay.classList.add('hidden');
+  });
+
+  document.getElementById('btn-reset-confirm').addEventListener('click', () => {
+    resetOverlay.classList.add('hidden');
     resetGame();
   });
 })();
