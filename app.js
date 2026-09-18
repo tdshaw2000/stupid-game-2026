@@ -204,8 +204,7 @@
     const attemptWord = attempts === 1 ? 'attempt' : 'attempts';
     document.getElementById('turn-summary-text').textContent =
       `${guesserName} guessed it in ${attempts} ${attemptWord}!`;
-    document.getElementById('turn-summary-secret').textContent =
-      `The secret number was ${secret}.`;
+    document.getElementById('turn-summary-secret').textContent = String(secret);
     showScreen('turnSummary');
   }
 
