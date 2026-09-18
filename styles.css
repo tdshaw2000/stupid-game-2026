@@ -198,6 +198,23 @@ body {
   border-color: var(--primary);
 }
 
+.mode-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.mode-divider::before,
+.mode-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e6e1f5;
+}
+
 form {
   display: flex;
   flex-direction: column;

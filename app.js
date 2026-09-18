@@ -8,6 +8,7 @@
   let players = [];
   let starterIndex = 0; // index into players[] of whoever picks first this round
   let roundNumber = 1;
+  let mode = 'multi'; // 'multi' | 'solo'
 
   // Per-round scratch state
   let turn = null; // 1 or 2
@@ -48,6 +49,7 @@
     e.preventDefault();
     const name1 = document.getElementById('input-player1').value.trim() || 'Player 1';
     const name2 = document.getElementById('input-player2').value.trim() || 'Player 2';
+    mode = 'multi';
     players = [
       { name: name1, roundsWon: 0 },
       { name: name2, roundsWon: 0 },
@@ -57,7 +59,25 @@
     startRound();
   });
 
+  document.getElementById('btn-solo-game').addEventListener('click', () => {
+    mode = 'solo';
+    players = [{ name: 'You', roundsWon: 0 }];
+    roundNumber = 1;
+    startSoloRound();
+  });
+
   // ---------- Round / turn setup ----------
+
+  function startSoloRound() {
+    turn = null;
+    pickerIndex = null;
+    guesserIndex = 0;
+    secret = Math.floor(Math.random() * (MAX_NUM - MIN_NUM + 1)) + MIN_NUM;
+    attempts = 0;
+    guesses = [];
+    turnResults = [];
+    goToGuessing();
+  }
 
   function startRound() {
     turnResults = [];
@@ -127,7 +147,9 @@
 
   function goToGuessing() {
     document.getElementById('guessing-banner').textContent =
-      `${players[guesserIndex].name}, guess the number (${MIN_NUM}-${MAX_NUM})`;
+      mode === 'solo'
+        ? `Guess the number (${MIN_NUM}-${MAX_NUM})`
+        : `${players[guesserIndex].name}, guess the number (${MIN_NUM}-${MAX_NUM})`;
     document.getElementById('input-guess').value = '';
     document.getElementById('guessing-error').classList.add('hidden');
     document.getElementById('guess-feedback').classList.add('hidden');
@@ -209,7 +231,9 @@
   }
 
   document.getElementById('btn-turn-continue').addEventListener('click', () => {
-    if (turn === 1) {
+    if (mode === 'solo') {
+      startSoloRound();
+    } else if (turn === 1) {
       startTurn(2, guesserIndex, pickerIndex);
     } else {
       showRoundResult();
@@ -265,6 +289,7 @@
   // ---------- Full reset ----------
 
   function resetGame() {
+    mode = 'multi';
     players = [];
     starterIndex = 0;
     roundNumber = 1;
@@ -286,6 +311,10 @@
   document.getElementById('btn-reset-game').addEventListener('click', () => {
     const hasProgress = players.length > 0;
     if (hasProgress) {
+      document.getElementById('overlay-text').textContent =
+        mode === 'solo'
+          ? 'Reset the game? This clears your progress.'
+          : 'Reset the whole game? This clears both players and all scores.';
       resetOverlay.classList.remove('hidden');
     } else {
       resetGame();
