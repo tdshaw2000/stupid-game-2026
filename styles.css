@@ -221,6 +221,42 @@ form {
   gap: 16px;
 }
 
+.field input[readonly] {
+  caret-color: transparent;
+  cursor: default;
+}
+
+.number-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.pad-key {
+  border: 2px solid #e6e1f5;
+  background: #fff;
+  color: var(--text);
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 14px 0;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.1s ease, transform 0.1s ease;
+}
+
+.pad-key:hover {
+  border-color: var(--primary);
+}
+
+.pad-key:active {
+  transform: scale(0.95);
+  background: #f6f4fc;
+}
+
+.pad-key-wide {
+  font-size: 0.95rem;
+}
+
 .error {
   color: var(--primary-dark);
   font-weight: 600;
