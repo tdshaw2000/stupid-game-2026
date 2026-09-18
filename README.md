@@ -25,17 +25,16 @@ python3 -m http.server 8000
 
 Then open the printed URL in your browser.
 
-## Deploying on Render
+## Deploying on Netlify
 
-This repo includes a `render.yaml` for Render's [Static Site](https://render.com/docs/static-sites)
-hosting (Infrastructure as Code / Blueprints):
+This repo includes a `netlify.toml` so Netlify picks up the right settings automatically:
 
-1. Push this repo to GitHub.
-2. In Render, choose **New +** → **Blueprint**, and point it at this repo. It will pick up
-   `render.yaml` automatically.
-3. Alternatively, create a **Static Site** manually with:
-   - **Build Command:** (leave empty)
-   - **Publish Directory:** `.`
+1. Push this repo to GitHub (already done if you're reading this from the repo).
+2. In [Netlify](https://app.netlify.com), sign in with GitHub and choose **Add new site** →
+   **Import an existing project** → **GitHub**, then select this repo.
+3. Netlify reads `netlify.toml` automatically (publish directory `.`, no build command) — just
+   click **Deploy**.
+4. Every push to the deployed branch redeploys automatically.
 
 No environment variables or backend services are needed — all game state lives in the
 browser for the duration of the session.

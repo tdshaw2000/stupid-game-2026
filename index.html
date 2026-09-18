@@ -80,6 +80,7 @@
     <!-- TURN SUMMARY -->
     <section id="screen-turn-summary" class="screen hidden">
       <div class="card center">
+        <p class="turn-summary-secret" id="turn-summary-secret"></p>
         <p class="big-emoji">🎉</p>
         <p class="turn-summary-text" id="turn-summary-text"></p>
         <button type="button" id="btn-turn-continue" class="btn btn-primary">Continue</button>
@@ -94,7 +95,6 @@
         <div class="score-board" id="score-board"></div>
         <div class="round-result-actions">
           <button type="button" id="btn-next-round" class="btn btn-primary">Next Round 🔁</button>
-          <button type="button" id="btn-new-match" class="btn btn-secondary">New Match 🆕</button>
         </div>
       </div>
     </section>
@@ -103,9 +103,21 @@
 
   <footer class="app-footer">
     <p>Pass the device, don't peek! 👀🚫</p>
+    <button type="button" id="btn-reset-game" class="reset-link">↺ Reset Game</button>
   </footer>
 
 </div>
+
+<div id="reset-confirm-overlay" class="overlay hidden">
+  <div class="overlay-card">
+    <p class="overlay-text">Reset the whole game? This clears both players and all scores.</p>
+    <div class="overlay-actions">
+      <button type="button" id="btn-reset-cancel" class="btn btn-secondary">Cancel</button>
+      <button type="button" id="btn-reset-confirm" class="btn btn-primary">Reset Game</button>
+    </div>
+  </div>
+</div>
+
 <script src="app.js"></script>
 </body>
 </html>

@@ -56,6 +56,28 @@ body {
   letter-spacing: 0.5px;
 }
 
+.reset-link {
+  border: none;
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  backdrop-filter: blur(2px);
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.reset-link:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.reset-link:active {
+  transform: scale(0.96);
+}
+
 .screen-root {
   flex: 1;
   display: flex;
@@ -317,6 +339,14 @@ form {
   margin: 0;
 }
 
+.turn-summary-secret {
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  line-height: 1;
+  margin: 0;
+}
+
 .round-result-title {
   font-size: 1.4rem;
   font-weight: 800;
@@ -370,10 +400,61 @@ form {
 }
 
 .app-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
   text-align: center;
   color: rgba(255, 255, 255, 0.85);
   font-size: 0.85rem;
   margin-top: 24px;
+}
+
+.app-footer p {
+  margin: 0;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 33, 64, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 50;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.overlay-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  max-width: 340px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  text-align: center;
+}
+
+.overlay-text {
+  margin: 0;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.overlay-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.overlay-actions .btn {
+  flex: 1;
 }
 
 @media (max-width: 360px) {

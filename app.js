@@ -204,6 +204,7 @@
     const attemptWord = attempts === 1 ? 'attempt' : 'attempts';
     document.getElementById('turn-summary-text').textContent =
       `${guesserName} guessed it in ${attempts} ${attemptWord}!`;
+    document.getElementById('turn-summary-secret').textContent = String(secret);
     showScreen('turnSummary');
   }
 
@@ -261,9 +262,42 @@
     startRound();
   });
 
-  document.getElementById('btn-new-match').addEventListener('click', () => {
+  // ---------- Full reset ----------
+
+  function resetGame() {
+    players = [];
+    starterIndex = 0;
+    roundNumber = 1;
+    turn = null;
+    pickerIndex = null;
+    guesserIndex = null;
+    secret = null;
+    attempts = 0;
+    guesses = [];
+    turnResults = [];
+    handoffNext = null;
     document.getElementById('input-player1').value = '';
     document.getElementById('input-player2').value = '';
     showScreen('nameEntry');
+  }
+
+  const resetOverlay = document.getElementById('reset-confirm-overlay');
+
+  document.getElementById('btn-reset-game').addEventListener('click', () => {
+    const hasProgress = players.length > 0;
+    if (hasProgress) {
+      resetOverlay.classList.remove('hidden');
+    } else {
+      resetGame();
+    }
+  });
+
+  document.getElementById('btn-reset-cancel').addEventListener('click', () => {
+    resetOverlay.classList.add('hidden');
+  });
+
+  document.getElementById('btn-reset-confirm').addEventListener('click', () => {
+    resetOverlay.classList.add('hidden');
+    resetGame();
   });
 })();
