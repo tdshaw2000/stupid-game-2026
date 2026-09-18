@@ -1,0 +1,269 @@
+(() => {
+  'use strict';
+
+  const MIN_NUM = 1;
+  const MAX_NUM = 1000;
+
+  /** @type {{name: string, roundsWon: number}[]} */
+  let players = [];
+  let starterIndex = 0; // index into players[] of whoever picks first this round
+  let roundNumber = 1;
+
+  // Per-round scratch state
+  let turn = null; // 1 or 2
+  let pickerIndex = null;
+  let guesserIndex = null;
+  let secret = null;
+  let attempts = 0;
+  let guesses = []; // {value, result}
+  let turnResults = []; // [{guesserIndex, attempts}, ...] for this round
+
+  // What the handoff screen should do once the holder taps "ready"
+  let handoffNext = null; // 'pick' | 'guess'
+
+  const screens = {
+    nameEntry: document.getElementById('screen-name-entry'),
+    handoff: document.getElementById('screen-handoff'),
+    picking: document.getElementById('screen-picking'),
+    guessing: document.getElementById('screen-guessing'),
+    turnSummary: document.getElementById('screen-turn-summary'),
+    roundResult: document.getElementById('screen-round-result'),
+  };
+
+  function showScreen(name) {
+    Object.values(screens).forEach((el) => el.classList.add('hidden'));
+    screens[name].classList.remove('hidden');
+  }
+
+  function parseValidNumber(raw) {
+    if (!/^\d+$/.test(raw.trim())) return null;
+    const n = parseInt(raw, 10);
+    if (n < MIN_NUM || n > MAX_NUM) return null;
+    return n;
+  }
+
+  // ---------- Name entry ----------
+
+  document.getElementById('form-name-entry').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name1 = document.getElementById('input-player1').value.trim() || 'Player 1';
+    const name2 = document.getElementById('input-player2').value.trim() || 'Player 2';
+    players = [
+      { name: name1, roundsWon: 0 },
+      { name: name2, roundsWon: 0 },
+    ];
+    starterIndex = Math.random() < 0.5 ? 0 : 1;
+    roundNumber = 1;
+    startRound();
+  });
+
+  // ---------- Round / turn setup ----------
+
+  function startRound() {
+    turnResults = [];
+    startTurn(1, starterIndex, 1 - starterIndex);
+  }
+
+  function startTurn(turnNum, picker, guesser) {
+    turn = turnNum;
+    pickerIndex = picker;
+    guesserIndex = guesser;
+    secret = null;
+    attempts = 0;
+    guesses = [];
+    goToHandoff(pickerIndex, 'pick');
+  }
+
+  // ---------- Handoff ----------
+
+  function goToHandoff(playerIndex, next) {
+    handoffNext = next;
+    const player = players[playerIndex];
+    document.getElementById('handoff-name').textContent = player.name;
+    const sub = document.getElementById('handoff-sub');
+    if (next === 'pick') {
+      sub.textContent = `Round ${roundNumber} · Turn ${turn} of 2 — you'll choose a secret number.`;
+    } else {
+      const pickerName = players[pickerIndex].name;
+      sub.textContent = `Round ${roundNumber} · Turn ${turn} of 2 — try to guess ${pickerName}'s number!`;
+    }
+    showScreen('handoff');
+  }
+
+  document.getElementById('btn-handoff-ready').addEventListener('click', () => {
+    if (handoffNext === 'pick') {
+      goToPicking();
+    } else {
+      goToGuessing();
+    }
+  });
+
+  // ---------- Picking ----------
+
+  function goToPicking() {
+    document.getElementById('picking-banner').textContent =
+      `${players[pickerIndex].name}, choose your secret number`;
+    document.getElementById('input-secret').value = '';
+    document.getElementById('picking-error').classList.add('hidden');
+    showScreen('picking');
+    setTimeout(() => document.getElementById('input-secret').focus(), 50);
+  }
+
+  document.getElementById('form-picking').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const raw = document.getElementById('input-secret').value;
+    const n = parseValidNumber(raw);
+    const errorEl = document.getElementById('picking-error');
+    if (n === null) {
+      errorEl.classList.remove('hidden');
+      return;
+    }
+    errorEl.classList.add('hidden');
+    secret = n;
+    goToHandoff(guesserIndex, 'guess');
+  });
+
+  // ---------- Guessing ----------
+
+  function goToGuessing() {
+    document.getElementById('guessing-banner').textContent =
+      `${players[guesserIndex].name}, guess the number (${MIN_NUM}-${MAX_NUM})`;
+    document.getElementById('input-guess').value = '';
+    document.getElementById('guessing-error').classList.add('hidden');
+    document.getElementById('guess-feedback').classList.add('hidden');
+    updateAttemptCount();
+    renderGuessHistory();
+    showScreen('guessing');
+    setTimeout(() => document.getElementById('input-guess').focus(), 50);
+  }
+
+  function updateAttemptCount() {
+    document.getElementById('attempt-count-num').textContent = String(attempts);
+    document.getElementById('attempt-count-plural').textContent = attempts === 1 ? '' : 's';
+  }
+
+  function renderGuessHistory() {
+    const list = document.getElementById('guess-history');
+    list.innerHTML = '';
+    for (let i = guesses.length - 1; i >= 0; i--) {
+      const g = guesses[i];
+      const li = document.createElement('li');
+      if (g.result === 'correct') li.classList.add('correct');
+      const label = document.createElement('span');
+      label.textContent = g.value;
+      const hint = document.createElement('span');
+      hint.classList.add('hint');
+      hint.textContent = g.result === 'higher' ? '⬆️ Higher' : g.result === 'lower' ? '⬇️ Lower' : '🎯 Correct!';
+      li.appendChild(label);
+      li.appendChild(hint);
+      list.appendChild(li);
+    }
+  }
+
+  document.getElementById('form-guessing').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const raw = document.getElementById('input-guess').value;
+    const n = parseValidNumber(raw);
+    const errorEl = document.getElementById('guessing-error');
+    if (n === null) {
+      errorEl.classList.remove('hidden');
+      return;
+    }
+    errorEl.classList.add('hidden');
+
+    attempts += 1;
+    let result;
+    if (n < secret) result = 'higher';
+    else if (n > secret) result = 'lower';
+    else result = 'correct';
+
+    guesses.push({ value: n, result });
+    updateAttemptCount();
+    renderGuessHistory();
+
+    const feedbackEl = document.getElementById('guess-feedback');
+    feedbackEl.classList.remove('hidden', 'higher', 'lower', 'correct');
+    feedbackEl.classList.add(result);
+    feedbackEl.textContent =
+      result === 'higher' ? '⬆️ Higher!' : result === 'lower' ? '⬇️ Lower!' : '🎯 Correct!';
+
+    document.getElementById('input-guess').value = '';
+
+    if (result === 'correct') {
+      turnResults.push({ guesserIndex, attempts });
+      setTimeout(showTurnSummary, 600);
+    } else {
+      setTimeout(() => document.getElementById('input-guess').focus(), 50);
+    }
+  });
+
+  // ---------- Turn summary ----------
+
+  function showTurnSummary() {
+    const guesserName = players[guesserIndex].name;
+    const attemptWord = attempts === 1 ? 'attempt' : 'attempts';
+    document.getElementById('turn-summary-text').textContent =
+      `${guesserName} guessed it in ${attempts} ${attemptWord}!`;
+    showScreen('turnSummary');
+  }
+
+  document.getElementById('btn-turn-continue').addEventListener('click', () => {
+    if (turn === 1) {
+      startTurn(2, guesserIndex, pickerIndex);
+    } else {
+      showRoundResult();
+    }
+  });
+
+  // ---------- Round result ----------
+
+  function showRoundResult() {
+    const [r1, r2] = turnResults; // r1: turn1 guesser result, r2: turn2 guesser result
+    const titleEl = document.getElementById('round-result-title');
+    const emojiEl = document.getElementById('result-emoji');
+
+    let winnerIndex = null;
+    if (r1.attempts < r2.attempts) winnerIndex = r1.guesserIndex;
+    else if (r2.attempts < r1.attempts) winnerIndex = r2.guesserIndex;
+
+    if (winnerIndex === null) {
+      emojiEl.textContent = '🤝';
+      titleEl.textContent = `It's a tie! Both guessed in ${r1.attempts}.`;
+    } else {
+      players[winnerIndex].roundsWon += 1;
+      emojiEl.textContent = '🏆';
+      titleEl.textContent = `${players[winnerIndex].name} wins the round!`;
+    }
+
+    const board = document.getElementById('score-board');
+    board.innerHTML = '';
+    players.forEach((p, idx) => {
+      const item = document.createElement('div');
+      item.classList.add('score-item');
+      if (winnerIndex === idx) item.classList.add('winner');
+      const nameEl = document.createElement('span');
+      nameEl.classList.add('score-name');
+      nameEl.textContent = p.name;
+      const valueEl = document.createElement('span');
+      valueEl.classList.add('score-value');
+      valueEl.textContent = String(p.roundsWon);
+      item.appendChild(nameEl);
+      item.appendChild(valueEl);
+      board.appendChild(item);
+    });
+
+    showScreen('roundResult');
+  }
+
+  document.getElementById('btn-next-round').addEventListener('click', () => {
+    roundNumber += 1;
+    starterIndex = 1 - starterIndex; // alternate who picks first
+    startRound();
+  });
+
+  document.getElementById('btn-new-match').addEventListener('click', () => {
+    document.getElementById('input-player1').value = '';
+    document.getElementById('input-player2').value = '';
+    showScreen('nameEntry');
+  });
+})();

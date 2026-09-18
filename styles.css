@@ -1,0 +1,383 @@
+:root {
+  --bg-1: #ff6b6b;
+  --bg-2: #6b5bff;
+  --card-bg: #ffffff;
+  --text: #2b2140;
+  --text-soft: #6c6285;
+  --primary: #ff6b6b;
+  --primary-dark: #e14d4d;
+  --secondary: #ffd166;
+  --secondary-dark: #f2b705;
+  --success: #06d6a0;
+  --info: #4361ee;
+  --radius: 20px;
+  --shadow: 0 10px 30px rgba(43, 33, 64, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  background: linear-gradient(160deg, var(--bg-1), var(--bg-2));
+  background-attachment: fixed;
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.app {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 48px);
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.app-header h1 {
+  color: #fff;
+  font-size: 2rem;
+  margin: 0;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  letter-spacing: 0.5px;
+}
+
+.screen-root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: pop-in 0.25s ease;
+}
+
+.screen.hidden {
+  display: none;
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card.center {
+  align-items: center;
+  text-align: center;
+}
+
+#screen-name-entry {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 24px;
+}
+
+.lead {
+  color: var(--text-soft);
+  font-size: 1rem;
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.field input {
+  font-size: 1.15rem;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 2px solid #e6e1f5;
+  outline: none;
+  font-weight: 500;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  -webkit-text-security: disc;
+}
+
+#input-player1, #input-player2, #input-guess {
+  -webkit-text-security: none;
+}
+
+.field input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.15);
+}
+
+.btn {
+  border: none;
+  border-radius: 16px;
+  padding: 16px 20px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s ease, filter 0.15s ease;
+  width: 100%;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.btn-secondary {
+  background: #fff;
+  color: var(--text);
+  border: 2px solid #e6e1f5;
+}
+
+.btn-secondary:hover {
+  border-color: var(--primary);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.error {
+  color: var(--primary-dark);
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin: -8px 0 0;
+}
+
+.error.hidden {
+  display: none;
+}
+
+/* Handoff screen */
+.handoff-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 40px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20vh;
+}
+
+.handoff-emoji {
+  font-size: 2.5rem;
+  margin: 0 0 8px;
+}
+
+.handoff-title {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 1rem;
+}
+
+.handoff-name {
+  margin: 4px 0 12px;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+}
+
+.handoff-sub {
+  margin: 0 0 16px;
+  color: var(--text-soft);
+  font-size: 0.95rem;
+}
+
+.turn-banner {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0;
+  color: var(--info);
+}
+
+.attempt-count {
+  text-align: center;
+  color: var(--text-soft);
+  font-weight: 600;
+  margin: -8px 0 0;
+}
+
+.feedback {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin: 0;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.feedback.hidden {
+  display: none;
+}
+
+.feedback.higher {
+  color: var(--info);
+  background: rgba(67, 97, 238, 0.1);
+}
+
+.feedback.lower {
+  color: var(--primary-dark);
+  background: rgba(255, 107, 107, 0.12);
+}
+
+.feedback.correct {
+  color: #067a5a;
+  background: rgba(6, 214, 160, 0.15);
+}
+
+.guess-history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.guess-history li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #f6f4fc;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.guess-history li .hint {
+  font-size: 1.1rem;
+}
+
+.guess-history li.correct {
+  background: rgba(6, 214, 160, 0.15);
+  color: #067a5a;
+}
+
+.big-emoji {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.turn-summary-text {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.round-result-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.score-board {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+}
+
+.score-item {
+  background: #f6f4fc;
+  border-radius: 14px;
+  padding: 14px 18px;
+  min-width: 100px;
+  text-align: center;
+}
+
+.score-item .score-name {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.score-item .score-value {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+}
+
+.score-item.winner {
+  background: rgba(6, 214, 160, 0.15);
+}
+
+.score-item.winner .score-value {
+  color: #067a5a;
+}
+
+.round-result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.app-footer {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.85rem;
+  margin-top: 24px;
+}
+
+@media (max-width: 360px) {
+  .app-header h1 {
+    font-size: 1.6rem;
+  }
+}

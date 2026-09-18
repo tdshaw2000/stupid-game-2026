@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>Stupid Game</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤪</text></svg>" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app">
+
+  <header class="app-header">
+    <h1>🤪 Stupid Game</h1>
+  </header>
+
+  <main id="screen-root" class="screen-root">
+
+    <!-- NAME ENTRY -->
+    <section id="screen-name-entry" class="screen">
+      <p class="lead">Two players, one device. Guess the secret number in the fewest tries to win the round!</p>
+      <form id="form-name-entry">
+        <label class="field">
+          <span>Player 1's name</span>
+          <input type="text" id="input-player1" maxlength="20" autocomplete="off" required placeholder="e.g. Alex" />
+        </label>
+        <label class="field">
+          <span>Player 2's name</span>
+          <input type="text" id="input-player2" maxlength="20" autocomplete="off" required placeholder="e.g. Sam" />
+        </label>
+        <button type="submit" class="btn btn-primary">Let's Play! 🎲</button>
+      </form>
+    </section>
+
+    <!-- HANDOFF -->
+    <section id="screen-handoff" class="screen hidden">
+      <div class="handoff-card">
+        <p class="handoff-emoji">📱➡️</p>
+        <p class="handoff-title">Pass the device to</p>
+        <p class="handoff-name" id="handoff-name"></p>
+        <p class="handoff-sub" id="handoff-sub"></p>
+        <button type="button" id="btn-handoff-ready" class="btn btn-primary">I've got it, I'm ready</button>
+      </div>
+    </section>
+
+    <!-- PICKING -->
+    <section id="screen-picking" class="screen hidden">
+      <div class="card">
+        <p class="turn-banner" id="picking-banner"></p>
+        <p class="lead">Secretly choose a number between <strong>1</strong> and <strong>1000</strong>. It'll stay hidden.</p>
+        <form id="form-picking">
+          <label class="field">
+            <span>Your secret number</span>
+            <input type="password" id="input-secret" inputmode="numeric" pattern="[0-9]*" autocomplete="off" required placeholder="1 - 1000" />
+          </label>
+          <p class="error hidden" id="picking-error">Please enter a whole number between 1 and 1000.</p>
+          <button type="submit" class="btn btn-primary">Lock it in 🔒</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- GUESSING -->
+    <section id="screen-guessing" class="screen hidden">
+      <div class="card">
+        <p class="turn-banner" id="guessing-banner"></p>
+        <p class="attempt-count"><span id="attempt-count-num">0</span> attempt<span id="attempt-count-plural">s</span> so far</p>
+        <form id="form-guessing">
+          <label class="field">
+            <span>Your guess</span>
+            <input type="text" id="input-guess" inputmode="numeric" pattern="[0-9]*" autocomplete="off" required placeholder="1 - 1000" />
+          </label>
+          <p class="error hidden" id="guessing-error">Please enter a whole number between 1 and 1000.</p>
+          <button type="submit" class="btn btn-primary">Guess 🎯</button>
+        </form>
+        <p class="feedback hidden" id="guess-feedback"></p>
+        <ul class="guess-history" id="guess-history"></ul>
+      </div>
+    </section>
+
+    <!-- TURN SUMMARY -->
+    <section id="screen-turn-summary" class="screen hidden">
+      <div class="card center">
+        <p class="big-emoji">🎉</p>
+        <p class="turn-summary-text" id="turn-summary-text"></p>
+        <button type="button" id="btn-turn-continue" class="btn btn-primary">Continue</button>
+      </div>
+    </section>
+
+    <!-- ROUND RESULT -->
+    <section id="screen-round-result" class="screen hidden">
+      <div class="card center">
+        <p class="big-emoji" id="result-emoji">🏆</p>
+        <p class="round-result-title" id="round-result-title"></p>
+        <div class="score-board" id="score-board"></div>
+        <div class="round-result-actions">
+          <button type="button" id="btn-next-round" class="btn btn-primary">Next Round 🔁</button>
+          <button type="button" id="btn-new-match" class="btn btn-secondary">New Match 🆕</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>Pass the device, don't peek! 👀🚫</p>
+  </footer>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>
