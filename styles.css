@@ -554,9 +554,15 @@ form {
 }
 
 .guess-popup-arrow {
-  font-size: 7rem;
-  line-height: 1;
+  width: 140px;
+  height: 140px;
+  background-color: currentColor;
+  clip-path: polygon(50% 0%, 92% 44%, 68% 44%, 68% 100%, 32% 100%, 32% 44%, 8% 44%);
   filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.4));
+}
+
+.guess-popup.lower .guess-popup-arrow {
+  transform: rotate(180deg);
 }
 
 .guess-popup-text {
