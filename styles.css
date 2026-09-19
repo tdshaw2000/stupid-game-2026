@@ -215,6 +215,33 @@ body {
   background: #e6e1f5;
 }
 
+.share-link {
+  border: none;
+  background: none;
+  color: var(--info);
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.share-link:hover {
+  text-decoration: underline;
+}
+
+.share-feedback {
+  text-align: center;
+  color: #067a5a;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin: -8px 0 0;
+}
+
+.share-feedback.hidden {
+  display: none;
+}
+
 form {
   display: flex;
   flex-direction: column;

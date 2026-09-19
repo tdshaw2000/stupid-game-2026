@@ -88,6 +88,32 @@
     startSoloRound();
   });
 
+  document.getElementById('btn-share-game').addEventListener('click', async () => {
+    const shareData = {
+      title: 'Stupid Game',
+      text: 'Play Stupid Game with me — guess the secret number in the fewest tries!',
+      url: window.location.href,
+    };
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        // User cancelled the share sheet, or it failed silently; nothing to do.
+      }
+      return;
+    }
+    const feedbackEl = document.getElementById('share-feedback');
+    try {
+      await navigator.clipboard.writeText(shareData.url);
+      feedbackEl.textContent = 'Link copied!';
+    } catch (err) {
+      window.prompt('Copy this link:', shareData.url);
+      return;
+    }
+    feedbackEl.classList.remove('hidden');
+    setTimeout(() => feedbackEl.classList.add('hidden'), 2000);
+  });
+
   // ---------- Round / turn setup ----------
 
   function startSoloRound() {
