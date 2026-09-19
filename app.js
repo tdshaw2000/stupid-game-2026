@@ -216,11 +216,9 @@
   function showGuessPopup(result) {
     if (result !== 'higher' && result !== 'lower') return;
     const popup = document.getElementById('guess-popup');
-    const arrow = document.getElementById('guess-popup-arrow');
     const text = document.getElementById('guess-popup-text');
     popup.classList.remove('show', 'higher', 'lower');
     void popup.offsetWidth; // restart the animation even on repeated same-direction guesses
-    arrow.textContent = result === 'higher' ? '⬆' : '⬇';
     text.textContent = result === 'higher' ? 'HIGHER' : 'LOWER';
     popup.classList.add('show', result);
   }
