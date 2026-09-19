@@ -535,6 +535,69 @@ form {
   flex: 1;
 }
 
+/* Higher/Lower flash popup */
+.guess-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.guess-popup.show {
+  animation: popup-flash 0.8s ease-out forwards;
+}
+
+.guess-popup-arrow {
+  font-size: 7rem;
+  line-height: 1;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.4));
+}
+
+.guess-popup-text {
+  font-size: 2.75rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.guess-popup.higher .guess-popup-arrow,
+.guess-popup.higher .guess-popup-text {
+  color: #4cc9ff;
+}
+
+.guess-popup.lower .guess-popup-arrow,
+.guess-popup.lower .guess-popup-text {
+  color: #ff6b6b;
+}
+
+@keyframes popup-flash {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  15% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  25% {
+    transform: scale(1);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
 @media (max-width: 360px) {
   .app-header h1 {
     font-size: 1.6rem;

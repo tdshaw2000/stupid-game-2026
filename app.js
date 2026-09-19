@@ -213,6 +213,18 @@
     document.getElementById('attempt-count-plural').textContent = attempts === 1 ? '' : 's';
   }
 
+  function showGuessPopup(result) {
+    if (result !== 'higher' && result !== 'lower') return;
+    const popup = document.getElementById('guess-popup');
+    const arrow = document.getElementById('guess-popup-arrow');
+    const text = document.getElementById('guess-popup-text');
+    popup.classList.remove('show', 'higher', 'lower');
+    void popup.offsetWidth; // restart the animation even on repeated same-direction guesses
+    arrow.textContent = result === 'higher' ? '⬆' : '⬇';
+    text.textContent = result === 'higher' ? 'HIGHER' : 'LOWER';
+    popup.classList.add('show', result);
+  }
+
   function renderGuessHistory() {
     const list = document.getElementById('guess-history');
     list.innerHTML = '';
@@ -251,6 +263,7 @@
     guesses.push({ value: n, result });
     updateAttemptCount();
     renderGuessHistory();
+    showGuessPopup(result);
 
     const feedbackEl = document.getElementById('guess-feedback');
     feedbackEl.classList.remove('hidden', 'higher', 'lower', 'correct');
