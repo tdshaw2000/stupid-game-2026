@@ -10,7 +10,9 @@ A pass-the-device, two-player number guessing game for the web.
    **lower**, or **correct** after each guess.
 4. Roles then swap — the guesser becomes the picker for the second turn of the round.
 5. Whoever guessed their opponent's number in fewer attempts wins the round (a tie is a tie).
-6. Play another round (score carries over) or start a brand new match.
+6. Play another round (score carries over), or use **Reset Game** in the footer to start over.
+
+There is also a **Solo Game** mode where you guess a random number on your own.
 
 ## Running locally
 
@@ -38,3 +40,9 @@ This repo includes a `netlify.toml` so Netlify picks up the right settings autom
 
 No environment variables or backend services are needed — all game state lives in the
 browser for the duration of the session.
+
+## Specs
+
+The game's behaviour and history are documented with [OpenSpec](https://github.com/Fission-AI/OpenSpec) in
+[`openspec/`](openspec/project.md). Start with `openspec/project.md`; propose new changes with `/opsx:propose`
+in Claude Code.
